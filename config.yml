@@ -1,0 +1,33 @@
+field:
+  year:
+    x: 850
+    y: 670
+  month:
+    x: 1200
+    y: 670
+  day:
+    x: 1550
+    y: 670
+  day_of_week:
+    x: 2100
+    y: 670
+  arrive_at:
+    x: 2900
+    y: 560
+  leave_at:
+    x: 2900
+    y: 780
+  work:
+    time:
+      x: 400
+      y: 1200
+    content:
+      x: 950
+      y: 1200
+  comment:
+    x: 380
+    y: 4050
+    w: 34
+  author:
+    x: 1000
+    y: 6430
