@@ -47,8 +47,10 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
 
         # On 'work' property 
         if k_conf_attr == 'work':
+            # TODO: 書き込む文字列を組み立てて最後に write_text() に投げたい
             for k_work_time,v_work_txt in v_data_content['work'].items():
                 write_text(v_conf_pos['time']['x'], v_conf_pos['time']['y'], k_work_time)
+
                 tmp = format_text(longtext=v_work_txt, maxwidth=v_conf_pos['content']['w'])
                 write_text(v_conf_pos['content']['x'], v_conf_pos['content']['y'], tmp)
 
