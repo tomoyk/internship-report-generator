@@ -3,13 +3,13 @@ field:
     x: 850
     y: 670
   month:
-    x: 1200
+    x: 1250
     y: 670
   day:
-    x: 1550
+    x: 1600
     y: 670
   day_of_week:
-    x: 2100
+    x: 2130
     y: 670
   arrive_at:
     x: 2900
@@ -24,10 +24,11 @@ field:
     content:
       x: 950
       y: 1200
+      w: 70
   comment:
     x: 380
     y: 4050
-    w: 34
+    w: 41
   author:
     x: 1000
     y: 6430

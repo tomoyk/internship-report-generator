@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import yaml
+import unicodedata
 from PIL import Image, ImageDraw, ImageFont
 
 def draw_data(image_obj, imagefont_obj, v_data_content):
@@ -19,22 +20,37 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
         def write_text(x, y, txt):
             d.text((x,y), str(txt), font=imagefont_obj, fill=(0,0,0,255))
 
-        def hoge(longtext):
-            MAX_WIDTH = 40//2
-            tmp = ''
-            for i in range(len(longtext)//MAX_WIDTH):
-                tmp += longtext[MAX_WIDTH*i:MAX_WIDTH*(i+1)] + '\n'
-            return tmp
+        def getCharSize(char):
+            if unicodedata.east_asian_width(char) in 'FWA':
+                return 2
+            else:
+                return 1
 
-        # On 'comment' or 'work' property
-        if k_conf_attr == 'comment': #or k_conf_attr == 'work':
-            v_data_content[k_conf_attr] = hoge(v_data_content[k_conf_attr])           
+        def format_text(longtext, maxwidth):
+            tmp_str = ''
+            line_length = 0
+
+            for c in longtext:
+                tmp_str += c
+                line_length += getCharSize(c)
+
+                # Return text
+                if maxwidth-1 <= line_length:
+                    tmp_str += '\n'
+                    line_length = 0
+
+            return tmp_str
+
+        # On 'comment' property
+        if k_conf_attr == 'comment':
+            v_data_content[k_conf_attr] = format_text(longtext=v_data_content[k_conf_attr], maxwidth=v_conf_pos['w'])
 
         # On 'work' property 
         if k_conf_attr == 'work':
             for k_work_time,v_work_txt in v_data_content['work'].items():
                 write_text(v_conf_pos['time']['x'], v_conf_pos['time']['y'], k_work_time)
-                write_text(v_conf_pos['content']['x'], v_conf_pos['content']['y'], v_work_txt)
+                tmp = format_text(longtext=v_work_txt, maxwidth=v_conf_pos['content']['w'])
+                write_text(v_conf_pos['content']['x'], v_conf_pos['content']['y'], tmp)
 
             continue
 
