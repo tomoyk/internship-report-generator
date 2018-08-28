@@ -34,6 +34,11 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
                 tmp_str += c
                 line_length += getCharSize(c)
 
+                # Intercept return
+                if c == '\n':
+                    line_length = 0
+                    continue
+
                 # Return text
                 if maxwidth-1 <= line_length:
                     tmp_str += '\n'
@@ -47,9 +52,10 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
 
         # On 'work' property 
         if k_conf_attr == 'work':
+            # Buffer
             tmp_time = ''
             tmp_cont = ''
-            # TODO: 書き込む文字列を組み立てて最後に write_text() に投げたい
+
             for k_work_time,v_work_txt in v_data_content['work'].items():
                 # Join content
                 formated_text = format_text(longtext=v_work_txt, maxwidth=v_conf_pos['content']['w']) 
@@ -61,6 +67,7 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
 
             write_text(v_conf_pos['time']['x'], v_conf_pos['time']['y'], tmp_time)
             write_text(v_conf_pos['content']['x'], v_conf_pos['content']['y'], tmp_cont)
+
             continue
 
         # NOTE) k_conf_attr = {year, month, day, day_of_week, ...}
@@ -68,6 +75,8 @@ def draw_data(image_obj, imagefont_obj, v_data_content):
 
 
 def main():
+
+    print("+++ Generating reports +++")
     
     # Open base-image
     IMAGE_PATH='scn_master_blank.jpeg'
@@ -80,6 +89,7 @@ def main():
 
     # Get each-data on data.yml
     for k_data_day,v_data_content in data.items():
+        print("- Building: "+k_data_day)
 
         # Generate image for text
         txt = Image.new('RGBA', base.size)
@@ -94,9 +104,9 @@ def main():
         out = Image.alpha_composite(base, txt)
 
         # For debug
-        out.show()
+        # out.show()
 
-        # out.save("hoge.png", "PNG")
+        out.save("out/"+k_data_day+".png", "PNG")
 
 
 if __name__ == '__main__':
